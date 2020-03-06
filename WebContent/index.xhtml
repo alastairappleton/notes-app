@@ -11,6 +11,7 @@
   <title>Notes</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
   <link href="./css/light.css" rel="stylesheet" type="text/css"/>
+  <link href="./css/notes.css" rel="stylesheet" type="text/css"/>
 </h:head>
 
 <h:body class="container">
@@ -18,28 +19,28 @@
     <h1>Notes</h1>
 
 
-    <h:form class="row">
-      <h:inputText value="#{notesBean.note.noteText}" a:placeholder="New note" class="column-80"/>
+    <h:form class="flex">
+      <h:inputText a:class="flex-item" value="#{notesBean.note.noteText}" a:placeholder="New note" class="column-80"/>
       <h:commandButton value="Add note" action="#{notesBean.add}" class="column-10" />
     </h:form>
 
     <hr/>
 
     <h:form>
-        <table>
+
             <ui:repeat value="#{notesBean.noteList}" var="n">
-                <tr>
-                    <td>
-                        <h:inputText value="#{n.noteText}">
+            <div class="flex">
+                <div class="flex flex-item">
+                    <h:inputText class="flex-item" value="#{n.noteText}">
                         <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                         </h:inputText>
-                    </td>
-                    <td>
-                        <h:commandLink action="#{notesBean.delete(n)}">Delete</h:commandLink>
-                    </td>
-                </tr>
+                </div>
+                <div>
+                    <h:commandButton action="#{notesBean.delete(n)}" value="Delete"></h:commandButton>
+                </div>
+            </div>
             </ui:repeat>
-        </table>
+
     </h:form>
 
 </h:body>

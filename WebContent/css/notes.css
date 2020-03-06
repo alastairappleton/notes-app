@@ -1,7 +1,8 @@
-.flex-container {
+.flex {
     display: flex;
+    align-items: center;
 }
 
-.flex {
+.flex-item {
     flex: 1;
 }

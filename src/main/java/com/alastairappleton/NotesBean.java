@@ -1,107 +1,104 @@
 package com.alastairappleton;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import javax.faces.bean.*;
 import java.io.Serializable;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
 @ViewScoped
 public class NotesBean implements Serializable {
 
+  private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
   private Note note = new Note();
-  private List<Note> noteList = new ArrayList<>();
-  private Integer maxId;
+  private List<Note> noteList;
 
   public NotesBean() {
-
-    // no need to create a new DatabaseConnection object to use here,
-    // since getConnection() method is static
-    Connection con = DatabaseConnection.getConnection();
-
+    Session session = null;
+    Transaction transaction = null;
     try {
-      Statement s = con.createStatement();
-      ResultSet rs = s.executeQuery("SELECT noteId, noteText FROM notes");
-
-      while (rs.next()) {
-        note.setNoteId(rs.getInt("noteId"));
-        note.setNoteText(rs.getString("noteText"));
-        noteList.add(note);
-        note = new Note(); // reset the placeholder
+      session = sessionFactory.openSession();
+      transaction = session.beginTransaction();
+      org.hibernate.query.Query query = session.createQuery("from Note"); // Use the same name as the Entity class (not the database table, if different)
+      noteList = query.list();
+      transaction.commit();
+      } catch (Exception e) {
+        noteList = null;
+        if (transaction != null) {
+          transaction.rollback();
         }
-
-      rs = s.executeQuery("SELECT MAX(noteId) FROM notes");
-      rs.next(); // get the first (and only) row from this query
-      maxId = rs.getInt(1) + 1;
-
-    } catch (SQLException e) {
-      e.printStackTrace();
+      } finally {
+      session.close();
     }
-
-    DatabaseConnection.closeConnection();
-
   }
 
-  public String add() {
+  public void add() {
 
-    if (!note.getNoteText().isEmpty()) {
-      note.setNoteId(maxId);
-      noteList.add(note); // this is the temporary object bound to the "add" fields at the top of the page. No need to create a new Note().
-
-      Connection con = DatabaseConnection.getConnection();
-
-      try {
-        PreparedStatement ps = con.prepareStatement("INSERT INTO notes (noteId, noteText) values (?, ?)");
-        ps.setInt(1, note.getNoteId());
-        ps.setString(2, note.getNoteText());
-        ps.execute();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-
-      DatabaseConnection.closeConnection();
-
-      note = new Note(); // reset the placeholder (necessary if we have SessionScoped application and are not calling constructor each time)
+    if (this.note.getNoteText().isEmpty()) {
+      return;
     }
 
-    return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
-  }
-
-  public String delete(Note note) {
-
-    noteList.remove(note);
-
-    Connection con = DatabaseConnection.getConnection();
-
+    Session session = null;
+    Transaction transaction = null;
     try {
-    PreparedStatement ps = con.prepareStatement("DELETE FROM notes WHERE noteId = ?");
-    ps.setInt(1, note.getNoteId());
-    ps.execute();
-  } catch (SQLException e) {
-    e.printStackTrace();
+      session = sessionFactory.openSession();
+      transaction = session.beginTransaction();
+      session.save(this.note);
+      transaction.commit();
+      this.noteList.add(this.note); // add to the page ONLY IF THE INSERT WORKED
+      this.note = new Note(); // blank out the user so that we don't re-insert the same values
+    } catch (Exception e) {
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    } finally {
+      session.close();
+    }
+
   }
 
-    DatabaseConnection.closeConnection();
-    return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
+  public void delete(Note note) {
+
+    this.noteList.remove(note); // Remove the note from the page (as well as deleting from the database)
+
+    Session session = null;
+    Transaction transaction = null;
+    try {
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+        session.delete(note);
+        transaction.commit();
+    } catch (Exception e) {
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    } finally {
+      session.close();
+    }
+
 }
 
 
-  public String update(Note note) {
+  public void update(Note note) {
 
-    Connection con = DatabaseConnection.getConnection();
-
+    Session session = null;
+    Transaction transaction = null;
     try {
-      PreparedStatement ps = con.prepareStatement("UPDATE notes SET noteText = ? WHERE noteId = ?");
-      ps.setString(1, note.getNoteText());
-      ps.setInt(2, note.getNoteId());
-      ps.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
+      session = sessionFactory.openSession();
+      transaction = session.beginTransaction();
+      session.update(note);
+      transaction.commit();
+    } catch (Exception e) {
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    } finally {
+      session.close();
     }
 
-    DatabaseConnection.closeConnection();
-    return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
   }
 
   public Note getNote() {
