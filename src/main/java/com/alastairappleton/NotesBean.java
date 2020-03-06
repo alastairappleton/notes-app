@@ -75,16 +75,16 @@ public class NotesBean implements Serializable {
     Connection con = DatabaseConnection.getConnection();
 
     try {
-      PreparedStatement ps = con.prepareStatement("DELETE FROM notes WHERE noteId = ?");
-      ps.setInt(1, note.getNoteId());
-      ps.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    PreparedStatement ps = con.prepareStatement("DELETE FROM notes WHERE noteId = ?");
+    ps.setInt(1, note.getNoteId());
+    ps.execute();
+  } catch (SQLException e) {
+    e.printStackTrace();
+  }
 
     DatabaseConnection.closeConnection();
     return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
-  }
+}
 
 
   public String update(Note note) {
