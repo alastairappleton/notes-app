@@ -1,0 +1,5 @@
+CREATE TABLE `notes` (
+	`noteId`	INTEGER NOT NULL UNIQUE,
+	`noteTest`	TEXT NOT NULL DEFAULT ' ',
+	PRIMARY KEY(noteId)
+);
