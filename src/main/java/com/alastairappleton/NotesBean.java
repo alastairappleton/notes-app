@@ -35,10 +35,10 @@ public class NotesBean implements Serializable {
     }
   }
 
-  public void add() {
+  public String add() {
 
     if (this.note.getNoteText().isEmpty()) {
-      return;
+      return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh;
     }
 
     Session session = null;
@@ -58,9 +58,11 @@ public class NotesBean implements Serializable {
       session.close();
     }
 
+    return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
+
   }
 
-  public void delete(Note note) {
+  public String delete(Note note) {
 
     this.noteList.remove(note); // Remove the note from the page (as well as deleting from the database)
 
@@ -79,10 +81,12 @@ public class NotesBean implements Serializable {
       session.close();
     }
 
+    return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
+
 }
 
 
-  public void update(Note note) {
+  public String update(Note note) {
 
     Session session = null;
     Transaction transaction = null;
@@ -98,6 +102,8 @@ public class NotesBean implements Serializable {
     } finally {
       session.close();
     }
+
+    return "index?faces-redirect=true"; // Redirect so we keep data when refreshing
 
   }
 
