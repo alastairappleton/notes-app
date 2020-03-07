@@ -52,18 +52,20 @@
 
     <div class="container py-4">
         <h:form>
+            <div class="row">
             <ui:repeat value="#{notesBean.noteList}" var="n">
-                <div class="row my-1">
-                    <div class="col">
-                            <h:inputText class="form-control" value="#{n.noteText}">
-                                <f:ajax event="change" listener="#{notesBean.update(n)}"/>
-                            </h:inputText>
+                    <div class="col-sm-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h:inputText class="form-control" value="#{n.noteText}">
+                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>
+                                </h:inputText>
+                                <h:commandLink class="btn btn-danger mt-2" action="#{notesBean.delete(n)}"><i class="fas fa-trash" /></h:commandLink>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                            <h:commandLink class="btn btn-danger" action="#{notesBean.delete(n)}">Delete</h:commandLink>
-                    </div>
-                </div>
             </ui:repeat>
+            </div>
         </h:form>
     </div>
 
