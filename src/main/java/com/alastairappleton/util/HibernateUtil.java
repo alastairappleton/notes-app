@@ -1,4 +1,4 @@
-package com.alastairappleton;
+package com.alastairappleton.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

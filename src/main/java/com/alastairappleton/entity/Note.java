@@ -1,4 +1,4 @@
-package com.alastairappleton;
+package com.alastairappleton.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

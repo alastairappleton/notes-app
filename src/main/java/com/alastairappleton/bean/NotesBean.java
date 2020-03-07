@@ -1,5 +1,7 @@
-package com.alastairappleton;
+package com.alastairappleton.bean;
 
+import com.alastairappleton.entity.Note;
+import com.alastairappleton.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
