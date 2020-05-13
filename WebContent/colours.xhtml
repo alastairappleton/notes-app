@@ -8,7 +8,7 @@
 <h:head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Notes</title>
+    <title>Notes: manage colours</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <link href="./css/notes.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,13 @@
         <h:form>
             <div class="row my-1">
                 <div class="col">
-                    <h:inputText class="form-control" value="#{notesBean.note.noteText}" a:placeholder="New note"/>
+                    <h:inputText class="form-control" a:type="color" value="#{colourBean.colour.colourCode}" a:placeholder="Hex code"/>
                 </div>
-                <div class="col-auto">
-                    <h:commandLink class="btn btn-primary" action="#{notesBean.add}">Add note</h:commandLink>
+                <div class="col">
+                    <h:inputText class="form-control" value="#{colourBean.colour.colourName}" a:placeholder="Descriptive name"/>
+                </div>
+                <div class="col">
+                    <h:commandLink class="btn btn-primary" action="#{colourBean.add}">Create colour</h:commandLink>
                 </div>
             </div>
         </h:form>
@@ -52,35 +55,23 @@
 
     <div class="container py-4">
         <h:form>
-            <div class="row">
-            <ui:repeat value="#{notesBean.noteList}" var="n">
-                    <div class="col-sm-4 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h:inputText class="form-control" value="#{n.noteText}">
-                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>
-                                </h:inputText>
-
-<!--                                <h:selectOneMenu class="form-control" value="#{n.colour}">-->
-<!--                                    <f:selectItems value="#{colourBean.colourList}" var="c" itemLabel="#{c.colourName}"-->
-<!--                                                   itemValue="#{c.colourId}"/>-->
-<!--                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>-->
-<!--                                </h:selectOneMenu>-->
-
-
-                                <h:selectOneMenu class="form-control" value="#{n.importance}" >
-                                    <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
-                                    <f:selectItems value="#{importanceBean.importantList}" />
-                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>
-                                </h:selectOneMenu>
-
-                                <h:commandLink class="btn btn-danger mt-2" action="#{notesBean.delete(n)}"><i
-                                            class="fas fa-trash"/></h:commandLink>
-                            </div>
-                        </div>
+            <ui:repeat value="#{colourBean.colourList}" var="c">
+                <div class="row my-2">
+                    <div class="col">
+                        <h:inputText a:type="color" value="#{c.colourCode}" class="form-control">
+                            <f:ajax event="change" listener="#{colourBean.update(c)}"/>
+                        </h:inputText>
                     </div>
+                    <div class="col">
+                        <h:inputText class="form-control" value="#{c.colourName}">
+                            <f:ajax event="change" listener="#{colourBean.update(c)}"/>
+                        </h:inputText>
+                    </div>
+                    <div class="col">
+                        <h:commandLink class="btn btn-danger" action="#{colourBean.delete(c)}"><i class="fas fa-trash" /></h:commandLink>
+                    </div>
+                </div>
             </ui:repeat>
-            </div>
         </h:form>
     </div>
 

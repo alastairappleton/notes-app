@@ -1,9 +1,8 @@
 package com.alastairappleton.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.alastairappleton.enums.Importance;
+
+import javax.persistence.*;
 
 @Entity
 public class Note {
@@ -12,6 +11,18 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer noteId;
     String noteText;
+    @ManyToOne
+    Colour colour;
+
+    public Importance getImportance() {
+        return importance;
+    }
+
+    public void setImportance(Importance importance) {
+        this.importance = importance;
+    }
+
+    Importance importance;
 
     public static void Note() {}
 
@@ -30,4 +41,13 @@ public class Note {
     public void setNoteText(String noteText) {
         this.noteText = noteText;
     }
+
+    public Colour getColour() {
+        return colour;
+    }
+
+    public void setColour(Colour colour) {
+        this.colour = colour;
+    }
+
 }
