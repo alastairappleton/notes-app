@@ -70,7 +70,11 @@
 
                                 <h:selectOneMenu class="form-control" value="#{n.importance}" >
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
-                                    <f:selectItems value="#{importanceBean.importantList}" />
+                                    <f:selectItems value="#{importanceBean.importantList}"
+                                                   var="i"
+                                                   itemValue="#{i}"
+                                                   itemLabel="#{i.label}"
+                                    />
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
 
