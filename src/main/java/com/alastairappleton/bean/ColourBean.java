@@ -6,8 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.convert.FacesConverter;
 import java.io.Serializable;
 import java.util.List;
 
@@ -108,6 +110,30 @@ public class ColourBean implements Serializable {
 
     return "colours?faces-redirect=true"; // Redirect so we keep data when refreshing
 
+  }
+
+
+  public Colour find(Long l) {
+    Colour c = new Colour();
+
+    Session session = null;
+    Transaction transaction = null;
+    try {
+      session = sessionFactory.openSession();
+      transaction = session.beginTransaction();
+      String hql = "from Colour where colourId = ?";
+      List result = session.createQuery(hql).setParameter(0, l.toString()).list();
+      c = (Colour) result.get(0);
+      transaction.commit();
+    } catch (Exception e) {
+      colourList = null;
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    } finally {
+      session.close();
+    }
+    return c;
   }
 
   public Colour getColour() {

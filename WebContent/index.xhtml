@@ -61,20 +61,21 @@
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:inputText>
 
-<!--                                <h:selectOneMenu class="form-control" value="#{n.colour}">-->
-<!--                                    <f:selectItems value="#{colourBean.colourList}" var="c" itemLabel="#{c.colourName}"-->
-<!--                                                   itemValue="#{c.colourId}"/>-->
-<!--                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>-->
-<!--                                </h:selectOneMenu>-->
-
+                                <h:selectOneMenu class="form-control" value="#{n.colour}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
+                                    <f:selectItems value="#{colourBean.colourList}"
+                                                   var="c"
+                                                   itemValue="#{c.colourId}"
+                                                   itemLabel="#{c.colourName}" />
+                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>
+                                </h:selectOneMenu>
 
                                 <h:selectOneMenu class="form-control" value="#{n.importance}" >
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
                                     <f:selectItems value="#{importanceBean.importantList}"
                                                    var="i"
                                                    itemValue="#{i}"
-                                                   itemLabel="#{i.label}"
-                                    />
+                                                   itemLabel="#{i.label}" />
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
 
