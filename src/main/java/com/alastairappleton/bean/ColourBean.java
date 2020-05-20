@@ -1,16 +1,20 @@
 package com.alastairappleton.bean;
 
 import com.alastairappleton.entity.Colour;
+import com.alastairappleton.services.ColourService;
 import com.alastairappleton.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.convert.FacesConverter;
+import javax.faces.model.SelectItem;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
@@ -20,24 +24,16 @@ public class ColourBean implements Serializable {
   private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
   private Colour colour = new Colour();
   private List<Colour> colourList;
+  private ColourService colourService = new ColourService();
 
   public ColourBean() {
-    Session session = null;
-    Transaction transaction = null;
-    try {
-      session = sessionFactory.openSession();
-      transaction = session.beginTransaction();
-      org.hibernate.query.Query query = session.createQuery("from Colour"); // Use the same name as the Entity class (not the database table, if different)
-      colourList = query.list();
-      transaction.commit();
-      } catch (Exception e) {
-        colourList = null;
-        if (transaction != null) {
-          transaction.rollback();
-        }
-      } finally {
-      session.close();
-    }
+  // Balus C says we should not do any logic in the bean's constructor but should use PostConstruct instead
+  //  colourList = colourService.findAll();
+  }
+
+  @PostConstruct
+  public void init() {
+    colourList = colourService.findAll();
   }
 
   public String add() {
@@ -110,30 +106,6 @@ public class ColourBean implements Serializable {
 
     return "colours?faces-redirect=true"; // Redirect so we keep data when refreshing
 
-  }
-
-
-  public Colour find(Long l) {
-    Colour c = new Colour();
-
-    Session session = null;
-    Transaction transaction = null;
-    try {
-      session = sessionFactory.openSession();
-      transaction = session.beginTransaction();
-      String hql = "from Colour where colourId = ?";
-      List result = session.createQuery(hql).setParameter(0, l.toString()).list();
-      c = (Colour) result.get(0);
-      transaction.commit();
-    } catch (Exception e) {
-      colourList = null;
-      if (transaction != null) {
-        transaction.rollback();
-      }
-    } finally {
-      session.close();
-    }
-    return c;
   }
 
   public Colour getColour() {

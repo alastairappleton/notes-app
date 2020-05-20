@@ -1,6 +1,7 @@
 package com.alastairappleton.entity;
 
 import com.alastairappleton.enums.Importance;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -13,16 +14,9 @@ public class Note {
     String noteText;
     @ManyToOne
     Colour colour;
-
-    public Importance getImportance() {
-        return importance;
-    }
-
-    public void setImportance(Importance importance) {
-        this.importance = importance;
-    }
-
     Importance importance;
+    @Type(type="yes_no")
+    private Boolean favourite = false; /* default when adding new notes */
 
     public static void Note() {}
 
@@ -48,6 +42,22 @@ public class Note {
 
     public void setColour(Colour colour) {
         this.colour = colour;
+    }
+
+    public Importance getImportance() {
+        return importance;
+    }
+
+    public void setImportance(Importance importance) {
+        this.importance = importance;
+    }
+
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        this.favourite = favourite;
     }
 
 }

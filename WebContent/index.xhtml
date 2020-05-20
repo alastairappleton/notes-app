@@ -26,10 +26,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <h:link class="nav-link" value = "Manage colours" outcome = "colours" />
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Tags</a>
+                        <h:link class="nav-link" outcome = "colours"><i class="fas fa-cog mr-2"/>Admin</h:link>
                     </li>
                 </ul>
             </div>
@@ -37,31 +34,46 @@
     </nav>
 
 
-    <div class="container py-4">
-        <h:form>
+    <div class="container my-md-4 py-4 bg-light rounded">
+        <h:form id="addForm">
             <div class="row my-1">
                 <div class="col">
                     <h:inputText class="form-control" value="#{notesBean.note.noteText}" a:placeholder="New note"/>
                 </div>
                 <div class="col-auto">
-                    <h:commandLink class="btn btn-primary" action="#{notesBean.add}">Add note</h:commandLink>
+                    <h:commandButton class="btn btn-primary" type="submit" value="Add note" action="#{notesBean.add}" />
                 </div>
             </div>
         </h:form>
     </div>
 
+
     <div class="container py-4">
-        <h:form>
+        <h:form id="cardsForm">
+
+            <div class="row justify-content-end mb-3">
+                <div class="col-md-4">
+                <div class="form-inline d-flex">
+                    <h:outputLabel for="order-by" class="col-auto col-form-label">Sort by:</h:outputLabel>
+                    <h:selectOneMenu id="order-by" class="form-control custom-select flex-grow-1" value="#{boardBean.selectedOrder}">
+                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                        <f:selectItems value="#{boardBean.availableOrders}" />
+                        <f:ajax event="change" listener="#{boardBean.sort()}" render="cardsForm"/>
+                    </h:selectOneMenu>
+                </div>
+                </div>
+            </div>
+
             <div class="row">
             <ui:repeat value="#{notesBean.noteList}" var="n">
                     <div class="col-sm-4 mb-3">
-                        <div class="card h-100">
+                        <div class="card h-100 shadow-sm">
                             <div class="card-body">
-                                <h:inputText class="form-control" value="#{n.noteText}">
-                                    <f:ajax event="change" listener="#{notesBean.update(n)}"/>
+                                <h:inputText class="form-control mb-1" value="#{n.noteText}" required="true">
+                                    <f:ajax event="change" listener="#{notesBean.update(n)}" render="cardsForm"/>
                                 </h:inputText>
 
-                                <h:selectOneMenu class="form-control" value="#{n.colour}">
+                                <h:selectOneMenu class="form-control custom-select mb-1" value="#{n.colour}" converter="#{converters.ColourConverter}">
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
                                     <f:selectItems value="#{colourBean.colourList}"
                                                    var="c"
@@ -70,7 +82,7 @@
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
 
-                                <h:selectOneMenu class="form-control" value="#{n.importance}" >
+                                <h:selectOneMenu class="form-control custom-select mb-1" value="#{n.importance}">
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
                                     <f:selectItems value="#{importanceBean.importantList}"
                                                    var="i"
@@ -79,8 +91,12 @@
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
 
-                                <h:commandLink class="btn btn-danger mt-2" action="#{notesBean.delete(n)}"><i
-                                            class="fas fa-trash"/></h:commandLink>
+                                <div class="d-flex justify-content-end">
+                                <h:commandLink class="btn btn-light mt-2 mr-2 text-muted" rendered="#{!n.favourite}" action="#{notesBean.toggleFavourite(n)}"><i class="fas fa-star"/></h:commandLink>
+                                <h:commandLink class="btn btn-warning mt-2 mr-2 text-white" rendered="#{n.favourite}" action="#{notesBean.toggleFavourite(n)}"><i class="fas fa-star"/></h:commandLink>
+                                <h:commandLink class="btn btn-danger mt-2" action="#{notesBean.delete(n)}"><i class="fas fa-trash"/></h:commandLink>
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -16,4 +16,14 @@
         
         From JSF 2 and PrimeFaces tutorial
         at http://www.coreservlets.com/JSF-Tutorial/jsf2/ -->
+
+  <!--
+  <managed-bean>
+    <managed-bean-name>notesBean</managed-bean-name>
+    <managed-bean-class>com.alastairappleton.bean.NotesBean</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+  </managed-bean>
+  -->
+
+
 </faces-config>

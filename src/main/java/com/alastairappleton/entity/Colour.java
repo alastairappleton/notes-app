@@ -41,14 +41,14 @@ public class Colour {
         this.colourName = colourName;
     }
 
-//    public String toString() {
-//        // this allows us to use 'c' instead of 'c.colourId' in the XHTML ItemValue
-//        // and we get
-//        //      Conversion Error setting value '17' for 'null Converter'
-//        // instead of
-//        //      Conversion Error setting value 'com.alastairappleton.entity.Colour@54e1e209' for 'null Converter'
-//        return colourId.toString();
-//    }
+    public String toString() {
+        // this allows us to use 'c' instead of 'c.colourId' in the XHTML ItemValue
+        // and we get
+        //      Conversion Error setting value '17' for 'null Converter'
+        // instead of
+        //      Conversion Error setting value 'com.alastairappleton.entity.Colour@54e1e209' for 'null Converter'
+        return colourId.toString();
+    }
 
 
     // Must implement these otherwise we get j_idt18:j_idt20:1:j_idt23: Validation Error: Value is not valid

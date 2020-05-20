@@ -2,6 +2,7 @@ package com.alastairappleton.converters;
 
 import com.alastairappleton.bean.ColourBean;
 import com.alastairappleton.entity.Colour;
+import com.alastairappleton.services.ColourService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,9 +19,8 @@ public class ColourConverter implements Converter {
         if (submittedValue == null || submittedValue.isEmpty()) {
             return null;
         }
-
         try {
-            return new ColourBean().find(Long.valueOf(submittedValue));
+            return new ColourService().find(Integer.valueOf(submittedValue));
         } catch (NumberFormatException e) {
             throw new ConverterException(new FacesMessage(String.format("%s is not a valid colour ID", submittedValue)), e);
         }
@@ -33,7 +33,8 @@ public class ColourConverter implements Converter {
         }
 
         if (modelValue instanceof Colour) {
-            return String.valueOf(((Colour) modelValue).getColourId());
+            return ((Colour) modelValue).getColourId().toString();
+            // return String.valueOf(((Colour) modelValue).getColourId());
         } else {
             throw new ConverterException(new FacesMessage(modelValue + " is not a valid colour"));
         }
