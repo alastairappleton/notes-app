@@ -4,15 +4,24 @@
 <hibernate-configuration>
     <session-factory>
 
-
+        <!--
         <property name="connection.driver_class">org.sqlite.JDBC</property>
         <property name="connection.url">jdbc:sqlite:notesApp.db</property>
+        -->
+
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/notesappdb</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">postgres</property>
+
+
 
         <property name="show_sql">true</property>
 
         <!-- DB schema will be updated if needed -->
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
+        <!-- <property name="dialect">org.hibernate.dialect.SQLiteDialect</property> -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
 
         <mapping class="com.alastairappleton.entity.Note" />
         <mapping class="com.alastairappleton.entity.Colour" />
