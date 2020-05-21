@@ -13,6 +13,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
+
 @ManagedBean
 @ViewScoped
 public class NotesBean implements Serializable {
@@ -159,17 +162,18 @@ public class NotesBean implements Serializable {
   public void sortDescending() {
     // Lambda implementation
     //this.noteList.sort((a, b) -> b.getNoteText().compareTo(a.getNoteText()));
-
     // Alternate implementation:
-    System.out.println("Alternate implementation");
     this.noteList.sort(Comparator.comparing(Note::getNoteText));
     Collections.reverse(this.noteList);
   }
 
   public void sortImportance() {
     // enums are ordered in the order that they are declared
-    this.noteList.sort(Comparator.nullsLast(
-                          Comparator.comparing(Note::getImportance)));
+    // nullsLast would deal with null beans, NOT null importances (see https://stackoverflow.com/a/53315210)
+    // Wrong:
+    /* this.noteList.sort(Comparator.nullsLast(Comparator.comparing(Note::getImportance))); */
+    //this.noteList.sort(Comparator.comparing(Note::getImportance, nullsLast(naturalOrder())));
+    this.noteList.sort(Comparator.nullsLast(Comparator.comparing(Note::getImportance, nullsLast(naturalOrder()))));
   }
 
   public void sortDateCreated() {
