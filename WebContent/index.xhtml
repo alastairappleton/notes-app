@@ -49,10 +49,10 @@
 
 
     <div class="container py-4">
-        <h:form id="cardsForm">
+    <h:form id="boardActions">
 
-            <div class="row justify-content-end mb-3">
-                <div class="col-md-4">
+        <div class="row justify-content-end mb-3">
+            <div class="col-md-4">
                 <div class="form-inline d-flex">
                     <h:outputLabel for="order-by" class="col-auto col-form-label">Sort by:</h:outputLabel>
                     <h:selectOneMenu id="order-by" class="form-control custom-select flex-grow-1" value="#{boardBean.selectedOrder}">
@@ -61,9 +61,19 @@
                         <f:ajax event="change" listener="#{boardBean.sort()}" render="cardsForm"/>
                     </h:selectOneMenu>
                 </div>
-                </div>
             </div>
+        </div>
 
+    </h:form>
+    </div>
+
+
+
+    <div class="container py-4">
+
+        <!-- Form actions were here (from 'row') -->
+
+        <h:form id="cardsForm">
             <div class="row">
             <ui:repeat value="#{notesBean.noteList}" var="n">
                     <div class="col-sm-4 mb-3">

@@ -4,10 +4,7 @@ import com.alastairappleton.entity.Colour;
 import com.alastairappleton.services.ColourService;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
@@ -15,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped // keep state when we press F5, but not when we press 'Enter' in address bar (as this is a new GET request)
+@RequestScoped
+// keep state when we press F5, but not when we press 'Enter' in address bar (as this is a new GET request)
 public class BoardBean implements Serializable {
 
     // Using a managed property allows us to call a different bean (and it's methods) from inside this bean
