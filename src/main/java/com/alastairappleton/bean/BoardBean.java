@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 // keep state when we press F5, but not when we press 'Enter' in address bar (as this is a new GET request)
 public class BoardBean implements Serializable {
 

@@ -39,7 +39,7 @@ public class ColourBean implements Serializable {
   public String add() {
 
     if (this.colour.getColourCode().isEmpty() | this.colour.getColourName().isEmpty()) {
-      return "colours?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh;
+      return "admin?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh;
     }
 
     Session session = null;
@@ -59,7 +59,7 @@ public class ColourBean implements Serializable {
       session.close();
     }
 
-    return "colours?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
+    return "admin?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
 
   }
 
@@ -82,7 +82,7 @@ public class ColourBean implements Serializable {
       session.close();
     }
 
-    return "colours?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
+    return "admin?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
 
 }
 
@@ -104,7 +104,7 @@ public class ColourBean implements Serializable {
       session.close();
     }
 
-    return "colours?faces-redirect=true"; // Redirect so we keep data when refreshing
+    return "admin?faces-redirect=true"; // Redirect so we keep data when refreshing
 
   }
 
