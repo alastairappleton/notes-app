@@ -23,6 +23,7 @@ public class NotesBean implements Serializable {
   private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
   private Note note = new Note();
   private List<Note> noteList;
+  private String selectedOrder;
 
   public NotesBean() {}
 
@@ -152,6 +153,31 @@ public class NotesBean implements Serializable {
   public void toggleFavourite(Note n) {
     n.setFavourite(!n.getFavourite());
     this.update(n);
+  }
+
+
+  public String getSelectedOrder() {
+    return selectedOrder;
+  }
+
+  public void setSelectedOrder(String selectedOrder) {
+    this.selectedOrder = selectedOrder;
+  }
+
+  public void sort() {
+            switch(this.selectedOrder) {
+              case "AZ":
+                this.sortAscending();
+                break;
+              case "ZA":
+                this.sortDescending();
+                break;
+              case "PRIORITY":
+                this.sortImportance();
+                break;
+              case "ADDED":
+                this.sortDateCreated();
+            }
   }
 
 

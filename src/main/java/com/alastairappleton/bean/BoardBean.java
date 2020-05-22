@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@ViewScoped
+@ApplicationScoped
 // keep state when we press F5, but not when we press 'Enter' in address bar (as this is a new GET request)
 public class BoardBean implements Serializable {
 
-    // Using a managed property allows us to call a different bean (and it's methods) from inside this bean
-    @ManagedProperty(value="#{notesBean}")
-    NotesBean notesBean;
+//    // Using a managed property allows us to call a different bean (and it's methods) from inside this bean
+//    @ManagedProperty(value="#{notesBean}")
+//    NotesBean notesBean;
 
-    private String selectedOrder;
+//    private String selectedOrder;
     private List<SelectItem> availableOrders;
 
     public void BoardBean() {}
@@ -36,42 +36,42 @@ public class BoardBean implements Serializable {
         availableOrders.add(new SelectItem("ADDED", "Order created"));
     }
 
-    public String getSelectedOrder() {
-        return selectedOrder;
-    }
-
-    public void setSelectedOrder(String selectedOrder) {
-        this.selectedOrder = selectedOrder;
-    }
+//    public String getSelectedOrder() {
+//        return selectedOrder;
+//    }
+//
+//    public void setSelectedOrder(String selectedOrder) {
+//        this.selectedOrder = selectedOrder;
+//    }
 
     public List<SelectItem> getAvailableOrders() {
         return availableOrders;
     }
 
-    public NotesBean getNotesBean() {return notesBean;}
+//    public NotesBean getNotesBean() {return notesBean;}
+//
+//    public void setNotesBean(NotesBean notesBean) {this.notesBean = notesBean;}
 
-    public void setNotesBean(NotesBean notesBean) {this.notesBean = notesBean;}
-
-    public void sort() {
-
-        switch(this.selectedOrder) {
-            case "AZ":
-                notesBean.sortAscending();
-                break;
-            case "ZA":
-                notesBean.sortDescending();
-                break;
-            case "PRIORITY":
-                notesBean.sortImportance();
-                break;
-            case "ADDED":
-                notesBean.sortDateCreated();
-        }
-
-        // Refresh the notes area:
-        // FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("form:cardsForm");
-        // (No need for this, since we moved everything into one form and use f:ajax 'render' attribute)
-
-    }
+//    public void sort() {
+//
+//        switch(this.selectedOrder) {
+//            case "AZ":
+//                notesBean.sortAscending();
+//                break;
+//            case "ZA":
+//                notesBean.sortDescending();
+//                break;
+//            case "PRIORITY":
+//                notesBean.sortImportance();
+//                break;
+//            case "ADDED":
+//                notesBean.sortDateCreated();
+//        }
+//
+//        // Refresh the notes area:
+//        // FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("form:cardsForm");
+//        // (No need for this, since we moved everything into one form and use f:ajax 'render' attribute)
+//
+//    }
 
 }

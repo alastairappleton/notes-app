@@ -55,10 +55,10 @@
             <div class="col-md-4">
                 <div class="form-inline d-flex">
                     <h:outputLabel for="order-by" class="col-auto col-form-label">Sort by:</h:outputLabel>
-                    <h:selectOneMenu id="order-by" class="form-control custom-select flex-grow-1" value="#{boardBean.selectedOrder}">
+                    <h:selectOneMenu id="order-by" class="form-control custom-select flex-grow-1" value="#{notesBean.selectedOrder}">
                         <f:selectItem itemValue="#{null}" itemLabel="" />
                         <f:selectItems value="#{boardBean.availableOrders}" />
-                        <f:ajax event="change" listener="#{boardBean.sort()}" render="cardsForm"/>
+                        <f:ajax event="change" listener="#{notesBean.sort()}" render="cardsForm"/>
                     </h:selectOneMenu>
                 </div>
             </div>
