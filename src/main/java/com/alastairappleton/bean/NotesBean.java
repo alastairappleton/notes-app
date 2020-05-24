@@ -49,7 +49,7 @@ public class NotesBean implements Serializable {
       session.close();
     }
 
-    if (noteList != null && boardBean.getSelectedOrder() != null) {
+    if (noteList != null) {
       this.sort();
     }
 
@@ -77,6 +77,8 @@ public class NotesBean implements Serializable {
     } finally {
       session.close();
     }
+
+    this.sort();
 
     return "index?faces-redirect=true"; // Redirect so we do not resubmit data when hitting 'F5' to refresh
 
@@ -171,19 +173,21 @@ public class NotesBean implements Serializable {
 
 
   public void sort() {
-            switch(boardBean.getSelectedOrder()) {
-              case "AZ":
-                this.sortAscending();
-                break;
-              case "ZA":
-                this.sortDescending();
-                break;
-              case "PRIORITY":
-                this.sortImportance();
-                break;
-              case "ADDED":
-                this.sortDateCreated();
-            }
+    if (boardBean.getSelectedOrder() == null) { this.sortDateCreated(); } else {
+      switch (boardBean.getSelectedOrder()) {
+        case "AZ":
+          this.sortAscending();
+          break;
+        case "ZA":
+          this.sortDescending();
+          break;
+        case "PRIORITY":
+          this.sortImportance();
+          break;
+        case "ADDED":
+          this.sortDateCreated();
+      }
+    }
   }
 
 
@@ -205,7 +209,10 @@ public class NotesBean implements Serializable {
     // Wrong:
     /* this.noteList.sort(Comparator.nullsLast(Comparator.comparing(Note::getImportance))); */
     //this.noteList.sort(Comparator.comparing(Note::getImportance, nullsLast(naturalOrder())));
-    this.noteList.sort(Comparator.nullsLast(Comparator.comparing(Note::getImportance, nullsLast(naturalOrder()))));
+    List<Note> localList = noteList;
+    localList.sort(Comparator.comparing(Note::getNoteId));
+    localList.sort(Comparator.nullsLast(Comparator.comparing(Note::getImportance, nullsLast(naturalOrder()))));
+    this.noteList = localList;
   }
 
   public void sortDateCreated() {
