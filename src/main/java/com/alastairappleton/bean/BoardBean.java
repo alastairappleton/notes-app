@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 // keep state when we press F5, but not when we press 'Enter' in address bar (as this is a new GET request)
 public class BoardBean implements Serializable {
 
@@ -20,7 +20,7 @@ public class BoardBean implements Serializable {
 //    @ManagedProperty(value="#{notesBean}")
 //    NotesBean notesBean;
 
-//    private String selectedOrder;
+    private String selectedOrder;
     private List<SelectItem> availableOrders;
 
     public void BoardBean() {}
@@ -36,13 +36,13 @@ public class BoardBean implements Serializable {
         availableOrders.add(new SelectItem("ADDED", "Order created"));
     }
 
-//    public String getSelectedOrder() {
-//        return selectedOrder;
-//    }
-//
-//    public void setSelectedOrder(String selectedOrder) {
-//        this.selectedOrder = selectedOrder;
-//    }
+    public String getSelectedOrder() {
+        return selectedOrder;
+    }
+
+    public void setSelectedOrder(String selectedOrder) {
+        this.selectedOrder = selectedOrder;
+    }
 
     public List<SelectItem> getAvailableOrders() {
         return availableOrders;

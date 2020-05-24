@@ -23,7 +23,10 @@ public class NotesBean implements Serializable {
   private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
   private Note note = new Note();
   private List<Note> noteList;
-  private String selectedOrder;
+
+    @ManagedProperty(value="#{boardBean}")
+    BoardBean boardBean;
+
 
   public NotesBean() {}
 
@@ -45,6 +48,11 @@ public class NotesBean implements Serializable {
     } finally {
       session.close();
     }
+
+    if (noteList != null && boardBean.getSelectedOrder() != null) {
+      this.sort();
+    }
+
   }
 
   public String add() {
@@ -146,9 +154,13 @@ public class NotesBean implements Serializable {
     this.noteList = noteList;
   }
 
+  public BoardBean getBoardBean() {
+    return boardBean;
+  }
 
-
-
+  public void setBoardBean(BoardBean boardBean) {
+    this.boardBean = boardBean;
+  }
 
   public void toggleFavourite(Note n) {
     n.setFavourite(!n.getFavourite());
@@ -156,16 +168,10 @@ public class NotesBean implements Serializable {
   }
 
 
-  public String getSelectedOrder() {
-    return selectedOrder;
-  }
 
-  public void setSelectedOrder(String selectedOrder) {
-    this.selectedOrder = selectedOrder;
-  }
 
   public void sort() {
-            switch(this.selectedOrder) {
+            switch(boardBean.getSelectedOrder()) {
               case "AZ":
                 this.sortAscending();
                 break;
