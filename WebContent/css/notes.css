@@ -7,3 +7,7 @@
     z-index: 9999;
     background: #fff url('../images/spinner.gif') center no-repeat;
 }
+
+.small-text {
+    font-size: 0.8em;
+}

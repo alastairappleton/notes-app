@@ -29,7 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <h:link class="nav-link" outcome = "admin"><i class="fas fa-cog mr-2"/>Admin</h:link>
+                        <h:link class="nav-link" outcome = "settings"><i class="fas fa-cog mr-2"/>Settings</h:link>
                     </li>
                 </ul>
             </div>
@@ -49,6 +49,24 @@
             </div>
         </h:form>
     </div>
+
+
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Category:"/>
+
+            <h:selectOneMenu value="#{categoryBean.selectedCategory}" converter="categoryConverter">
+                <f:selectItems value="#{categoryBean.categories}" var="c"
+                               itemValue="#{c}"
+                               itemLabel="#{c.categoryName}"/>
+            </h:selectOneMenu>
+
+            <h:commandButton value="submit" action="result"/>
+        </h:panelGrid>
+    </h:form>
+
+
+
 
     <div class="container py-4">
     <h:form id="boardActions">
@@ -85,7 +103,9 @@
                                     <f:ajax event="change" listener="#{notesBean.update(n)}" render="cardsForm"/>
                                 </h:inputText>
 
-                                <h:selectOneMenu class="form-control custom-select mb-1" value="#{n.colour}" converter="#{converters.ColourConverter}">
+                                <div class="form-inline d-flex">
+                                <h:outputLabel for="colour-dropdown" class="mr-2 text-secondary"><i class="fas fa-eye-dropper"></i></h:outputLabel>
+                                <h:selectOneMenu id="colour-dropdown" class="form-control custom-select mb-1 flex-grow-1 small-text" value="#{n.colour}" converter="#{converters.ColourConverter}">
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
                                     <f:selectItems value="#{colourBean.colourList}"
                                                    var="c"
@@ -93,8 +113,11 @@
                                                    itemLabel="#{c.colourName}" />
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
+                                </div>
 
-                                <h:selectOneMenu class="form-control custom-select mb-1" value="#{n.importance}">
+                               <div class="form-inline d-flex">
+                                <h:outputLabel for="importance-dropdown" class="mr-2 text-secondary"><i class="fas fa-exclamation-circle"></i></h:outputLabel>
+                                <h:selectOneMenu  id="importance-dropdown" class="form-control custom-select mb-1 flex-grow-1 small-text" value="#{n.importance}">
                                     <f:selectItem itemValue="#{null}" itemLabel="" /> <!-- allow a blank row and null value in database -->
                                     <f:selectItems value="#{importanceBean.importantList}"
                                                    var="i"
@@ -102,6 +125,7 @@
                                                    itemLabel="#{i.label}" />
                                     <f:ajax event="change" listener="#{notesBean.update(n)}"/>
                                 </h:selectOneMenu>
+                                </div>
 
                                 <div class="d-flex justify-content-end">
                                 <h:commandLink class="btn btn-light mt-2 mr-2 text-muted" rendered="#{!n.favourite}" action="#{notesBean.toggleFavourite(n)}"><i class="fas fa-star"/></h:commandLink>
