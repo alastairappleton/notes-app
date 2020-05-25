@@ -2,26 +2,36 @@ package com.alastairappleton.bean;
 
 import com.alastairappleton.entity.Category;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CategoryBean implements Serializable {
 
     private Category selectedCategory;
     private List<Category> categories;
 
     public CategoryBean(){
+    }
+
+    @PostConstruct
+    public void init() {
         categories = new ArrayList<Category>();
-        categories.add(new Category(10, "Personal"));
-        categories.add(new Category(20, "Work"));
-        categories.add(new Category(30, "Other"));
+        Category c = new Category();
+        c.setCategoryId(10);
+        c.setCategoryName("Home");
+        categories.add(c);
+        c = new Category();
+        c.setCategoryId(20);
+        c.setCategoryName("Away");
+        categories.add(c);
     }
 
     public Category getSelectedCategory() {

@@ -33,6 +33,7 @@
 
         <mapping class="com.alastairappleton.entity.Note" />
         <mapping class="com.alastairappleton.entity.Colour" />
+        <mapping class="com.alastairappleton.entity.Category" />
 
 
     </session-factory>

@@ -16,7 +16,9 @@ public class Note {
     Colour colour;
     Importance importance;
     @Type(type="yes_no")
-    private Boolean favourite = false; /* default when adding new notes */
+    Boolean favourite = false; /* default when adding new notes */
+    @ManyToOne
+    Category category;
 
     public static void Note() {}
 
@@ -60,4 +62,11 @@ public class Note {
         this.favourite = favourite;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }
